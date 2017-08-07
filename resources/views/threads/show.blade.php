@@ -28,23 +28,23 @@
             </div>
           </div>
 
-          <replies :data="{{ $thread->replies }}" @removed="repliesCount--"></replies>
+          <replies :data="{{ $thread->replies }}" @removed="repliesCount--" @added="repliesCount++"></replies>
 
           {{--{{ $replies->links() }}--}}
 
-          @if(auth()->check())
-            <form method="POST" action="{{ $thread->path() . '/replies' }}">
-              {{ csrf_field() }}
-              <div class="form-group">
-              <textarea name="body" id="body" class="form-control" placeholder="Have something to say?"
-                        rows="5"></textarea>
-              </div>
-              <button type="submit" class="btn btn-default">Post</button>
-            </form>
-          @else
-            <p class="text-center">Please <a href="{{ route('login') }}">sign in</a> to participate to this discussion!
-            </p>
-          @endif
+          {{--@if(auth()->check())--}}
+            {{--<form method="POST" action="{{ $thread->path() . '/replies' }}">--}}
+              {{--{{ csrf_field() }}--}}
+              {{--<div class="form-group">--}}
+              {{--<textarea name="body" id="body" class="form-control" placeholder="Have something to say?"--}}
+                        {{--rows="5"></textarea>--}}
+              {{--</div>--}}
+              {{--<button type="submit" class="btn btn-default">Post</button>--}}
+            {{--</form>--}}
+          {{--@else--}}
+            {{--<p class="text-center">Please <a href="{{ route('login') }}">sign in</a> to participate to this discussion!--}}
+            {{--</p>--}}
+          {{--@endif--}}
         </div>
 
         <div class="col-md-4">
