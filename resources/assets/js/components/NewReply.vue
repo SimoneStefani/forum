@@ -16,8 +16,6 @@
 
 <script>
   export default {
-    props: ['endpoint'],
-
     name: 'NewReply',
 
     data() {
@@ -30,19 +28,19 @@
       signedIn() {
         return window.App.signedIn;
       }
-  },
+    },
 
-  methods: {
-    addReply()
-    {
-      axios.post(this.endpoint, { body: this.body })
-        .then(({ data }) => {
-          this.body = '';
-          flash('Your reply has been posted!');
-          this.$emit('created', data);
-        });
+    methods: {
+      addReply()
+      {
+        axios.post(location.pathname + '/replies', { body: this.body })
+          .then(({ data }) => {
+            this.body = '';
+            flash('Your reply has been posted!');
+            this.$emit('created', data);
+          });
+      }
     }
-  }
   }
   ;
 </script>
