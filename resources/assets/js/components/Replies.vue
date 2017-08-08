@@ -10,35 +10,41 @@
 
 <script>
   import Reply from './Reply.vue'
-  import NewReply from './NewReply';
+  import NewReply from './NewReply'
+  import collection from '../mixins/collection'
 
   export default {
     components: {
       NewReply,
-      Reply },
+      Reply
+    },
 
-    props: ['data'],
+    mixins: ['collection'],
 
     data() {
       return {
-        items: this.data,
+        dataSet: false,
         endpoint: location.pathname + '/replies'
       }
     },
 
+    created() {
+      this.fetch();
+    },
+
     methods: {
-      remove(index) {
-        this.items.splice(index, 1);
-
-        this.$emit('removed');
-
-        flash('Reply was deleted!')
+      fetch() {
+        axios.get(this.url())
+          .then(this.refresh)
       },
 
-      add(reply) {
-        this.items.push(reply);
+      url() {
+        return `${location.pathname}/replies`;
+      },
 
-        this.$emit('added');
+      refresh({ data }) {
+        this.dataSet = data;
+        this.items = data.data;
       }
     }
   }

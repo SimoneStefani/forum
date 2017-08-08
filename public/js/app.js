@@ -2139,6 +2139,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Reply_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__Reply_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewReply__ = __webpack_require__(46);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__NewReply___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__NewReply__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__mixins_collection__ = __webpack_require__(185);
 //
 //
 //
@@ -2149,6 +2150,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+
 
 
 
@@ -2156,30 +2158,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
     NewReply: __WEBPACK_IMPORTED_MODULE_1__NewReply___default.a,
-    Reply: __WEBPACK_IMPORTED_MODULE_0__Reply_vue___default.a },
+    Reply: __WEBPACK_IMPORTED_MODULE_0__Reply_vue___default.a
+  },
 
-  props: ['data'],
+  mixins: ['collection'],
 
   data: function data() {
     return {
-      items: this.data,
+      dataSet: false,
       endpoint: location.pathname + '/replies'
     };
+  },
+  created: function created() {
+    this.fetch();
   },
 
 
   methods: {
-    remove: function remove(index) {
-      this.items.splice(index, 1);
-
-      this.$emit('removed');
-
-      flash('Reply was deleted!');
+    fetch: function fetch() {
+      axios.get(this.url()).then(this.refresh);
     },
-    add: function add(reply) {
-      this.items.push(reply);
+    url: function url() {
+      return location.pathname + '/replies';
+    },
+    refresh: function refresh(_ref) {
+      var data = _ref.data;
 
-      this.$emit('added');
+      this.dataSet = data;
+      this.items = data.data;
     }
   }
 });
@@ -58004,6 +58010,31 @@ webpackContext.keys = function webpackContextKeys() {
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
 webpackContext.id = 184;
+
+/***/ }),
+/* 185 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony default export */ var _unused_webpack_default_export = ({
+  data: function data() {
+    return {
+      items: []
+    };
+  },
+  add: function add(item) {
+    this.items.push(item);
+
+    this.$emit('added');
+  },
+  remove: function remove(index) {
+    this.items.splice(index, 1);
+
+    this.$emit('removed');
+
+    flash('Reply was deleted!');
+  }
+});
 
 /***/ })
 /******/ ]);
