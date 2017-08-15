@@ -9,13 +9,18 @@ use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class SubscribeToThreadTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testExample()
+    /** @test * */
+    public function a_user_can_subscribe_to_threads()
     {
-        $this->assertTrue(true);
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $this->post($thread->path() . '/subscriptions');
+
+        $thread->addReply([
+            'user_id' => auth()->id(),
+            'body' => 'New reply body'
+        ]);
     }
 }
